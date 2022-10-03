@@ -22,7 +22,14 @@ const HomeScreen = ({ navigation }) => {
         keyExtractor={(item) => item.id}
         data={restaurants}
         renderItem={({ item }) => (
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("RestaurantDetail", {
+                name: item.name,
+                id: item.id,
+              })
+            }
+          >
             <ListItem bottomDivider>
               <Avatar
                 title={item.name[0]}

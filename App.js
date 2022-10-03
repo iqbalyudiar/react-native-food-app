@@ -8,6 +8,7 @@ import HomeScreen from "./src/screens/HomeScreen";
 import CartScreen from "./src/screens/CartScreen";
 import OrderListScreen from "./src/screens/OrderListScreen";
 import OrderCompleteScreen from "./src/screens/OrderCompleteScreen";
+import RestaurantDetailScreen from "./src/screens/RestaurantDetailScreen";
 
 // Components
 import { FontAwesome } from "@expo/vector-icons";
@@ -27,6 +28,11 @@ const HomeFlow = () => {
         }}
       />
       <Stack.Screen name="Cart" component={CartScreen} />
+      <Stack.Screen
+        name="RestaurantDetail"
+        component={RestaurantDetailScreen}
+        options={({ route }) => ({ title: route.params.name })}
+      />
     </Stack.Navigator>
   );
 };
