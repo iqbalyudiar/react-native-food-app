@@ -1,22 +1,20 @@
+// Utils
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createMaterialBottomTabNavigator } from "@react-navigation/material-bottom-tabs";
+
+// Screens
 import HomeScreen from "./src/screens/HomeScreen";
 import CartScreen from "./src/screens/CartScreen";
 import OrderListScreen from "./src/screens/OrderListScreen";
 import OrderCompleteScreen from "./src/screens/OrderCompleteScreen";
-import {
-  FontAwesome,
-} from "@expo/vector-icons";
+
+// Components
+import { FontAwesome } from "@expo/vector-icons";
+import { Provider as RestaurantProvider } from "./src/context/RestaurantContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
-
-const StackNavigationHelper = (name, component) => {
-  <Stack.Navigator>
-    <Stack.Screen name={name} component={component} />
-  </Stack.Navigator>;
-};
 
 const HomeFlow = () => {
   return (
@@ -97,9 +95,11 @@ const TabNavigator = () => {
 
 function App() {
   return (
-    <NavigationContainer>
-      <TabNavigator />
-    </NavigationContainer>
+    <RestaurantProvider>
+      <NavigationContainer>
+        <TabNavigator />
+      </NavigationContainer>
+    </RestaurantProvider>
   );
 }
 
