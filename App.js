@@ -5,6 +5,9 @@ import HomeScreen from "./src/screens/HomeScreen";
 import CartScreen from "./src/screens/CartScreen";
 import OrderListScreen from "./src/screens/OrderListScreen";
 import OrderCompleteScreen from "./src/screens/OrderCompleteScreen";
+import {
+  FontAwesome,
+} from "@expo/vector-icons";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -18,8 +21,14 @@ const StackNavigationHelper = (name, component) => {
 const HomeFlow = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeScreen} />
-      <Stack.Screen name="Card" component={CartScreen} />
+      <Stack.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          title: "Home",
+        }}
+      />
+      <Stack.Screen name="Cart" component={CartScreen} />
     </Stack.Navigator>
   );
 };
@@ -27,7 +36,13 @@ const HomeFlow = () => {
 const OrderListFlow = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="OrderList" component={OrderListScreen} />
+      <Stack.Screen
+        name="OrderList"
+        component={OrderListScreen}
+        options={{
+          title: "Order List",
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -35,25 +50,47 @@ const OrderListFlow = () => {
 const OrderCompleteFlow = () => {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="OrderComplete" component={OrderCompleteScreen} />
+      <Stack.Screen
+        name="OrderComplete"
+        component={OrderCompleteScreen}
+        options={{
+          title: "Order Complete",
+        }}
+      />
     </Stack.Navigator>
   );
 };
 
 const TabNavigator = () => {
   return (
-    <Tab.Navigator>
+    <Tab.Navigator
+      barStyle={{ backgroundColor: "white" }}
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused }) => {
+          const color = focused ? "#1464cc" : "gray";
+          let iconName;
+
+          switch (route.name) {
+            case "HomeFlow":
+              iconName = "home";
+              break;
+            case "OrderListFlow":
+              iconName = "list-ul";
+              break;
+            case "OrderCompleteFlow":
+              iconName = "check";
+              break;
+            default:
+              break;
+          }
+          return <FontAwesome name={iconName} size={24} color={color} />;
+        },
+        tabBarLabel: null,
+      })}
+    >
       <Tab.Screen name="HomeFlow" component={HomeFlow} />
-      <Tab.Screen
-        name="OrderListFlow"
-        component={OrderListFlow}
-        options={{ title: "Order List" }}
-      />
-      <Tab.Screen
-        name="OrderCompleteFlow"
-        component={OrderCompleteFlow}
-        options={{ title: "Order Complete" }}
-      />
+      <Tab.Screen name="OrderListFlow" component={OrderListFlow} />
+      <Tab.Screen name="OrderCompleteFlow" component={OrderCompleteFlow} />
     </Tab.Navigator>
   );
 };
