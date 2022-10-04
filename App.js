@@ -13,6 +13,7 @@ import RestaurantDetailScreen from "./src/screens/RestaurantDetailScreen";
 // Components
 import { FontAwesome } from "@expo/vector-icons";
 import { Provider as RestaurantProvider } from "./src/context/RestaurantContext";
+import { Provider as CartProvider } from "./src/context/CartContext";
 
 const Stack = createNativeStackNavigator();
 const Tab = createMaterialBottomTabNavigator();
@@ -101,11 +102,13 @@ const TabNavigator = () => {
 
 function App() {
   return (
-    <RestaurantProvider>
-      <NavigationContainer>
-        <TabNavigator />
-      </NavigationContainer>
-    </RestaurantProvider>
+    <CartProvider>
+      <RestaurantProvider>
+        <NavigationContainer>
+          <TabNavigator />
+        </NavigationContainer>
+      </RestaurantProvider>
+    </CartProvider>
   );
 }
 
