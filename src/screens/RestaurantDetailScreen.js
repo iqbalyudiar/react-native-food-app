@@ -4,6 +4,7 @@ import { Context as RestaurantContext } from "../context/RestaurantContext";
 import { Context as CartContext } from "../context/CartContext";
 import { Card, Text, Button } from "@rneui/base";
 import CartButton from "../components/CartButton";
+import Toast from "react-native-root-toast";
 
 const RestaurantDetailScreen = ({ route }) => {
   const {
@@ -11,7 +12,7 @@ const RestaurantDetailScreen = ({ route }) => {
   } = useContext(RestaurantContext);
 
   const {
-    state: { carts },
+    state: { carts, restaurant },
     addToCart,
     removeFromCart,
   } = useContext(CartContext);
@@ -21,9 +22,33 @@ const RestaurantDetailScreen = ({ route }) => {
   const currentRestaurant = restaurants.find((resto) => resto.id === id);
 
   const quantity = (id) => {
+    if (restaurant !== currentRestaurant.name) return 0;
     const item = carts.find((cart) => cart.id === id);
 
     return item ? item.quantity : 0;
+  };
+
+  const handleAdd = (food, restaurantName) => {
+    if (restaurant && restaurant !== currentRestaurant.name) {
+      let toast = Toast.show("Can not add order from different restaurant", {
+        duration: Toast.durations.LONG,
+        position: 50,
+        shadow: true,
+        animation: true,
+        hideOnPress: true,
+        delay: 0,
+        backgroundColor: "white",
+        shadowColor: "red",
+        textColor: "black",
+        opacity: 1,
+      });
+
+      setTimeout(function () {
+        Toast.hide(toast);
+      }, 700);
+      return;
+    }
+    addToCart(food, restaurantName);
   };
 
   return (
@@ -58,16 +83,14 @@ const RestaurantDetailScreen = ({ route }) => {
                   color="success"
                   size="md"
                   radius="md"
-                  onPress={() => addToCart(food, currentRestaurant.name)}
+                  onPress={() => handleAdd(food, currentRestaurant.name)}
                 />
               </View>
             </View>
           </View>
         </Card>
       ))}
-      {carts.length > 0 && (
-          <CartButton />
-      )}
+      {carts.length > 0 && <CartButton />}
     </View>
   );
 };
