@@ -9,7 +9,11 @@ const RestaurantDetailScreen = ({ route }) => {
     state: { restaurants },
   } = useContext(RestaurantContext);
 
-  const { addToCart, removeFromCart } = useContext(CartContext);
+  const {
+    state: cartState,
+    addToCart,
+    removeFromCart,
+  } = useContext(CartContext);
 
   const { id } = route.params;
 
@@ -32,7 +36,7 @@ const RestaurantDetailScreen = ({ route }) => {
                   color="error"
                   size="md"
                   radius="md"
-                  onPress={removeFromCart}
+                  onPress={() => removeFromCart(food.id)}
                 />
                 <Button
                   buttonStyle={styles.actionButton}
