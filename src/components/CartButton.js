@@ -1,26 +1,25 @@
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation } from "@react-navigation/native";
 import { FAB, Text } from "@rneui/base";
 import { FontAwesome } from "@expo/vector-icons";
 import { Context as CartContext } from "../context/CartContext";
 
-
 const Title = ({ restaurantName }) => {
   const {
-    state: { carts },
+    state: { carts, restaurant },
   } = useContext(CartContext);
   const totalItems = carts.reduce((prev, curr) => prev + curr.quantity, 0);
   return (
     <View style={styles.title}>
       <Text style={styles.text}>{totalItems} items</Text>
-      <Text style={styles.text}>Order from {restaurantName}</Text>
+      <Text style={styles.text}>Order from {restaurant}</Text>
     </View>
   );
 };
 
 const CartButton = (props) => {
-const navigation = useNavigation()
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <FAB

@@ -58,7 +58,7 @@ const RestaurantDetailScreen = ({ route }) => {
                   color="success"
                   size="md"
                   radius="md"
-                  onPress={() => addToCart(food)}
+                  onPress={() => addToCart(food, currentRestaurant.name)}
                 />
               </View>
             </View>
@@ -66,7 +66,7 @@ const RestaurantDetailScreen = ({ route }) => {
         </Card>
       ))}
       {carts.length > 0 && (
-          <CartButton restaurantName={currentRestaurant.name} />
+          <CartButton />
       )}
     </View>
   );
