@@ -1,12 +1,15 @@
 import React, { useContext } from "react";
 import { StyleSheet, View } from "react-native";
 import { Context as RestaurantContext } from "../context/RestaurantContext";
+import { Context as CartContext } from "../context/CartContext";
 import { Card, Text, Button } from "@rneui/base";
 
 const RestaurantDetailScreen = ({ route }) => {
   const {
     state: { restaurants },
   } = useContext(RestaurantContext);
+
+  const { addToCart, removeFromCart } = useContext(CartContext);
 
   const { id } = route.params;
 
@@ -29,6 +32,7 @@ const RestaurantDetailScreen = ({ route }) => {
                   color="error"
                   size="md"
                   radius="md"
+                  onPress={removeFromCart}
                 />
                 <Button
                   buttonStyle={styles.actionButton}
@@ -36,6 +40,7 @@ const RestaurantDetailScreen = ({ route }) => {
                   color="success"
                   size="md"
                   radius="md"
+                  onPress={() => addToCart(food)}
                 />
               </View>
             </View>
