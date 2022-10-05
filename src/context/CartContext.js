@@ -34,7 +34,9 @@ const cartReducer = (state, action) => {
           )
           .filter((item) => item.quantity > 0);
 
-        return { ...state, carts: newCarts };
+        const newRestaurant = newCarts.length === 0 ? "" : state.restaurant;
+
+        return { ...state, carts: newCarts, restaurant: newRestaurant };
       }
 
       return { ...state };
