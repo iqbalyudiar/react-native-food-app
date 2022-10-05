@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { StyleSheet, View } from "react-native";
 import { Card, Text, Button } from "@rneui/base";
 import { Context as CartContext } from "../context/CartContext";
+import { Context as OrderContext } from "../context/OrderContext";
 import { DataTable } from "react-native-paper";
 
 const CartScreen = () => {
@@ -9,11 +11,19 @@ const CartScreen = () => {
     state: { carts, restaurant },
   } = useContext(CartContext);
 
+  const {addOrder} = useContext(OrderContext)
+
+  const navigation = useNavigation()
+
+
   const priceItem = (item) => item.price * item.quantity;
   const totalPrice = carts.reduce(
     (prev, curr) => prev + curr.price * curr.quantity,
     0
   );
+
+  const goToOrderList = () => navigation.jumpTo("OrderListFlow")
+
   return (
     <View>
       <Card>
@@ -51,7 +61,7 @@ const CartScreen = () => {
             </DataTable.Row>
           </DataTable>
         </View>
-        <Button title="Order Now" style={styles.button} />
+        <Button title="Order Now" style={styles.button} onPress={() =>addOrder({carts, totalPrice, restaurant}, goToOrderList)} />
       </Card>
     </View>
   );
