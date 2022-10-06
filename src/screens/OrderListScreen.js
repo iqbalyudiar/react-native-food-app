@@ -1,17 +1,32 @@
 import React, { useCallback, useContext, useState } from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import moment from "moment";
 import { Tab, TabView, Text } from "@rneui/base";
 import { Context as OrderContext } from "../context/OrderContext";
+import OrderListCard from "../components/OrderListCard";
+
 const OrderListScreen = () => {
   const [tabIndex, setTabIndex] = useState();
-  const { getOrders } = useContext(OrderContext);
+  const {
+    getOrders,
+    state: { orders },
+  } = useContext(OrderContext);
 
   useFocusEffect(
     useCallback(() => {
       getOrders();
     }, [])
   );
+
+  const orderList = (status) => {
+    return orders.filter((order) => order.status === status);
+  };
+  const inprogressOrder = orderList("inprogress");
+  const completedOrder = orderList("completed");
+  const formatTime = (time) => {
+    return moment(time).format("DD MMM YY, hh:mm A");
+  };
 
   return (
     <>
@@ -37,10 +52,29 @@ const OrderListScreen = () => {
       </Tab>
       <TabView value={tabIndex} onChange={setTabIndex} animationType="spring">
         <TabView.Item style={{ width: "100%", height: "100%" }}>
-          <Text h1>In Progress</Text>
+          <>
+            {inprogressOrder.map((order) => (
+              <OrderListCard
+                key={order.id}
+                restaurant={order.restaurant}
+                time={formatTime(order.crated_at)}
+                totalPrice={order.totalPrice}
+                inProgress={true}
+              />
+            ))}
+          </>
         </TabView.Item>
         <TabView.Item style={{ width: "100%", height: "100%" }}>
-          <Text h1>Completed</Text>
+          <>
+            {completedOrder.map((order) => (
+              <OrderListCard
+                key={order.id}
+                restaurant={order.restaurant}
+                time={formatTime(order.created_at)}
+                totalPrice={order.totalPrice}
+              />
+            ))}
+          </>
         </TabView.Item>
       </TabView>
     </>
