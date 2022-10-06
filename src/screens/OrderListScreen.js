@@ -1,8 +1,8 @@
 import React, { useCallback, useContext, useState } from "react";
-import { StyleSheet } from "react-native";
-import { useFocusEffect } from "@react-navigation/native";
+import { StyleSheet, TouchableOpacity } from "react-native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import moment from "moment";
-import { Tab, TabView, Text } from "@rneui/base";
+import { Tab, TabView } from "@rneui/base";
 import { Context as OrderContext } from "../context/OrderContext";
 import OrderListCard from "../components/OrderListCard";
 
@@ -12,6 +12,8 @@ const OrderListScreen = () => {
     getOrders,
     state: { orders },
   } = useContext(OrderContext);
+
+  const navigation = useNavigation();
 
   useFocusEffect(
     useCallback(() => {
@@ -27,6 +29,8 @@ const OrderListScreen = () => {
   const formatTime = (time) => {
     return moment(time).format("DD MMM YY, hh:mm A");
   };
+
+  const goToOrderDetail = (id) => navigation.navigate("OrderDetail", { id });
 
   return (
     <>
@@ -54,25 +58,29 @@ const OrderListScreen = () => {
         <TabView.Item style={{ width: "100%", height: "100%" }}>
           <>
             {inprogressOrder.map((order) => (
-              <OrderListCard
-                key={order.id}
-                restaurant={order.restaurant}
-                time={formatTime(order.crated_at)}
-                totalPrice={order.totalPrice}
-                inProgress={true}
-              />
+              <TouchableOpacity onPress={() => goToOrderDetail(order.id)}>
+                <OrderListCard
+                  key={order.id}
+                  restaurant={order.restaurant}
+                  time={formatTime(order.crated_at)}
+                  totalPrice={order.totalPrice}
+                  inProgress={true}
+                />
+              </TouchableOpacity>
             ))}
           </>
         </TabView.Item>
         <TabView.Item style={{ width: "100%", height: "100%" }}>
           <>
             {completedOrder.map((order) => (
-              <OrderListCard
-                key={order.id}
-                restaurant={order.restaurant}
-                time={formatTime(order.created_at)}
-                totalPrice={order.totalPrice}
-              />
+              <TouchableOpacity onPress={() => goToOrderDetail(order.id)}>
+                <OrderListCard
+                  key={order.id}
+                  restaurant={order.restaurant}
+                  time={formatTime(order.created_at)}
+                  totalPrice={order.totalPrice}
+                />
+              </TouchableOpacity>
             ))}
           </>
         </TabView.Item>
