@@ -1,5 +1,5 @@
 import React, { useReducer } from "react";
-import { ADD_TO_CART, REMOVE_FROM_CART } from "./types";
+import { ADD_TO_CART, REMOVE_FROM_CART, RESET_CART } from "./types";
 
 const initialState = {
   carts: [],
@@ -7,7 +7,9 @@ const initialState = {
 };
 
 const cartReducer = (state, action) => {
-  const found = state.carts.some((cart) => cart.id === action.payload.food.id);
+  const found = state.carts.some(
+    (cart) => cart.id === action?.payload?.food?.id
+  );
   switch (action.type) {
     case ADD_TO_CART:
       if (found) {
@@ -40,6 +42,8 @@ const cartReducer = (state, action) => {
       }
 
       return { ...state };
+    case RESET_CART:
+      return { ...state, carts: [], restaurant: "" };
 
     default:
       return state;
@@ -60,7 +64,11 @@ export const Provider = ({ children }) => {
     dispatch({ type: REMOVE_FROM_CART, payload: { food } });
   };
 
-  const actions = { addToCart, removeFromCart };
+  const resetCart = () => {
+    dispatch({ type: RESET_CART });
+  };
+
+  const actions = { addToCart, removeFromCart, resetCart };
 
   const value = { state, ...actions };
 

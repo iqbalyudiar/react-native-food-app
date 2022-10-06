@@ -9,12 +9,12 @@ import { DataTable } from "react-native-paper";
 const CartScreen = () => {
   const {
     state: { carts, restaurant },
+    resetCart,
   } = useContext(CartContext);
 
-  const {addOrder} = useContext(OrderContext)
+  const { addOrder } = useContext(OrderContext);
 
-  const navigation = useNavigation()
-
+  const navigation = useNavigation();
 
   const priceItem = (item) => item.price * item.quantity;
   const totalPrice = carts.reduce(
@@ -22,7 +22,19 @@ const CartScreen = () => {
     0
   );
 
-  const goToOrderList = () => navigation.jumpTo("OrderListFlow")
+  const goToOrderList = async () => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: "Home" }],
+    });
+
+    navigation.navigate("OrderListFlow", {
+      screen: "OrderList",
+      params: { orderCreated: true },
+    });
+
+    resetCart();
+  };
 
   return (
     <View>
@@ -31,15 +43,21 @@ const CartScreen = () => {
         <Card.Divider />
         <View>
           <View>
-            <Text style={[styles.menuTitle, styles.restaurantTitle]}>Order From {restaurant}</Text>
+            <Text style={[styles.menuTitle, styles.restaurantTitle]}>
+              Order From {restaurant}
+            </Text>
           </View>
           <DataTable>
             <DataTable.Header>
-              <DataTable.Title textStyle={styles.menuTitle}>Items</DataTable.Title>
+              <DataTable.Title textStyle={styles.menuTitle}>
+                Items
+              </DataTable.Title>
               <DataTable.Title textStyle={styles.menuTitle}>
                 Quantity
               </DataTable.Title>
-              <DataTable.Title textStyle={styles.menuTitle}>Price</DataTable.Title>
+              <DataTable.Title textStyle={styles.menuTitle}>
+                Price
+              </DataTable.Title>
             </DataTable.Header>
             {carts.map((cart, index) => {
               return (
@@ -61,7 +79,13 @@ const CartScreen = () => {
             </DataTable.Row>
           </DataTable>
         </View>
-        <Button title="Order Now" style={styles.button} onPress={() =>addOrder({carts, totalPrice, restaurant}, goToOrderList)} />
+        <Button
+          title="Order Now"
+          style={styles.button}
+          onPress={() =>
+            addOrder({ carts, totalPrice, restaurant }, goToOrderList)
+          }
+        />
       </Card>
     </View>
   );
@@ -72,7 +96,7 @@ export default CartScreen;
 const styles = StyleSheet.create({
   restaurantTitle: {
     paddingHorizontal: 15,
-    fontSize:18,
+    fontSize: 18,
   },
   menuContainer: {
     flexDirection: "row",
