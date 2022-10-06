@@ -55,10 +55,13 @@ const OrderListScreen = () => {
         />
       </Tab>
       <TabView value={tabIndex} onChange={setTabIndex} animationType="spring">
-        <TabView.Item style={{ width: "100%", height: "100%" }}>
+        <TabView.Item style={{ width: "100%" }}>
           <>
             {inprogressOrder.map((order) => (
-              <TouchableOpacity onPress={() => goToOrderDetail(order.id)} key={order.id}>
+              <TouchableOpacity
+                onPress={() => goToOrderDetail(order.id)}
+                key={order.id}
+              >
                 <OrderListCard
                   key={order.id}
                   restaurant={order.restaurant}
@@ -70,10 +73,13 @@ const OrderListScreen = () => {
             ))}
           </>
         </TabView.Item>
-        <TabView.Item style={{ width: "100%", height: "100%" }}>
+        <TabView.Item style={{ width: "100%" }}>
           <>
             {completedOrder.map((order) => (
-              <TouchableOpacity onPress={() => goToOrderDetail(order.id)}  key={order.id}>
+              <TouchableOpacity
+                onPress={() => goToOrderDetail(order.id)}
+                key={order.id}
+              >
                 <OrderListCard
                   key={order.id}
                   restaurant={order.restaurant}
