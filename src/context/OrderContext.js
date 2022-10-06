@@ -21,6 +21,7 @@ export const Provider = ({ children }) => {
     try {
       const params = {
         id: Math.floor(Math.random() * 99999),
+        created_at: Date.now(),
         items: carts,
         restaurant,
         totalPrice,
