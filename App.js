@@ -7,7 +7,7 @@ import { createMaterialBottomTabNavigator } from "@react-navigation/material-bot
 import HomeScreen from "./src/screens/HomeScreen";
 import CartScreen from "./src/screens/CartScreen";
 import OrderListScreen from "./src/screens/OrderListScreen";
-import OrderCompleteScreen from "./src/screens/OrderCompleteScreen";
+import OrderDetailScreen from "./src/screens/OrderDetailScreen";
 import RestaurantDetailScreen from "./src/screens/RestaurantDetailScreen";
 
 // Components
@@ -49,23 +49,18 @@ const OrderListFlow = () => {
           title: "Order List",
         }}
       />
-    </Stack.Navigator>
-  );
-};
-
-const OrderCompleteFlow = () => {
-  return (
-    <Stack.Navigator>
       <Stack.Screen
-        name="OrderComplete"
-        component={OrderCompleteScreen}
+        name="OrderDetail"
+        component={OrderDetailScreen}
         options={{
-          title: "Order Complete",
+          title: "Order Detail",
         }}
       />
     </Stack.Navigator>
   );
 };
+
+
 
 const TabNavigator = () => {
   return (
@@ -83,9 +78,7 @@ const TabNavigator = () => {
             case "OrderListFlow":
               iconName = "list-ul";
               break;
-            case "OrderCompleteFlow":
-              iconName = "check";
-              break;
+          
             default:
               break;
           }
@@ -96,7 +89,6 @@ const TabNavigator = () => {
     >
       <Tab.Screen name="HomeFlow" component={HomeFlow} />
       <Tab.Screen name="OrderListFlow" component={OrderListFlow} />
-      <Tab.Screen name="OrderCompleteFlow" component={OrderCompleteFlow} />
     </Tab.Navigator>
   );
 };
