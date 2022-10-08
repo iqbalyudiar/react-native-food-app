@@ -23,6 +23,7 @@ const HomeScreen = ({ navigation }) => {
         data={restaurants}
         renderItem={({ item }) => (
           <TouchableOpacity
+            testID={`home-screen-navigate-${item.id}`}
             onPress={() =>
               navigation.navigate("RestaurantDetail", {
                 name: item.name,
