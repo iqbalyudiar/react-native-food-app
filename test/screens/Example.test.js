@@ -1,8 +1,8 @@
 import React from "react";
-import renderer from "react-test-renderer";
+import { render } from "@testing-library/react-native";
 import Example from "~/screens/Example";
 
 it("renders correctly", () => {
-  const tree = renderer.create(<Example />).toJSON();
+  const tree = render(<Example />).toJSON();
   expect(tree).toMatchSnapshot();
 });
