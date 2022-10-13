@@ -28,6 +28,7 @@ export const Provider = ({ children }) => {
         items: carts,
         restaurant,
         totalPrice,
+        status: 'inprogress'
       };
 
       await foodApi.post("/orders", params);
